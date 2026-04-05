@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import { ListSessionsResponseSchema, GetSessionResponseSchema } from '../../schemas/session.js';
 
 /**
@@ -9,7 +10,7 @@ export async function sessionRoutes(fastify: FastifyInstance): Promise<void> {
   fastify.get('/', {
     schema: {
       response: {
-        200: ListSessionsResponseSchema,
+        200: zodToJsonSchema(ListSessionsResponseSchema),
       },
     },
     handler: async () => {
@@ -36,12 +37,12 @@ export async function sessionRoutes(fastify: FastifyInstance): Promise<void> {
   fastify.get('/:id', {
     schema: {
       response: {
-        200: GetSessionResponseSchema,
+        200: zodToJsonSchema(GetSessionResponseSchema),
       },
     },
     handler: async (request) => {
       const { id } = request.params as { id: string };
-      
+
       // TODO: Fetch from database
       return {
         session: {

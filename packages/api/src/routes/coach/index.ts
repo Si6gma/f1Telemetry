@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import { z } from 'zod';
 
 const CoachRequestSchema = z.object({
@@ -23,9 +24,9 @@ export async function coachRoutes(fastify: FastifyInstance): Promise<void> {
   // POST /coach/analyse - Analyse a lap using AI coach
   fastify.post('/analyse', {
     schema: {
-      body: CoachRequestSchema,
+      body: zodToJsonSchema(CoachRequestSchema),
       response: {
-        200: CoachResponseSchema,
+        200: zodToJsonSchema(CoachResponseSchema),
       },
     },
     handler: async (request) => {
@@ -34,7 +35,8 @@ export async function coachRoutes(fastify: FastifyInstance): Promise<void> {
       // TODO: Integrate with Claude API
       // For now, return mock analysis
       return {
-        analysis: `Analysis for lap ${lapId}:\n\n` +
+        analysis:
+          `Analysis for lap ${lapId}:\n\n` +
           'Your lap was generally clean with good consistency. ' +
           'However, there are a few areas where time was lost:\n\n' +
           '1. Turn 3: You braked about 10m too early, losing ~0.15s\n' +

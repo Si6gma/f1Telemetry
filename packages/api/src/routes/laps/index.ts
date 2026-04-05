@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import {
   GetLapResponseSchema,
   CompareLapsRequestSchema,
@@ -49,7 +50,7 @@ export async function lapRoutes(fastify: FastifyInstance): Promise<void> {
   fastify.get('/:id', {
     schema: {
       response: {
-        200: GetLapResponseSchema,
+        200: zodToJsonSchema(GetLapResponseSchema),
       },
     },
     handler: async (request) => {
@@ -85,9 +86,9 @@ export async function lapRoutes(fastify: FastifyInstance): Promise<void> {
   // GET /laps/compare?a=:id&b=:id - Compare two laps
   fastify.get('/compare', {
     schema: {
-      querystring: CompareLapsRequestSchema,
+      querystring: zodToJsonSchema(CompareLapsRequestSchema),
       response: {
-        200: CompareLapsResponseSchema,
+        200: zodToJsonSchema(CompareLapsResponseSchema),
       },
     },
     handler: async (request) => {
