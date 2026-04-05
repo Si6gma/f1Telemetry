@@ -5,7 +5,14 @@
   "description": "F1 23 Telemetry Suite - UDP listener, logger, REST API, and dashboard",
   "scripts": {
     "build": "npm run build --workspaces",
-    "dev": "npm run dev --workspaces --if-present",
+    "dev": "concurrently \"npm:dev:*\" --names \"LISTENER,API,DASHBOARD\" --prefix-colors \"cyan,green,magenta\"",
+    "dev:listener": "npm run build --workspace=@f1t/types && npm run build --workspace=@f1t/listener && npm run start --workspace=@f1t/listener",
+    "dev:api": "npm run build --workspace=@f1t/types && npm run build --workspace=@f1t/api && npm run start --workspace=@f1t/api",
+    "dev:dashboard": "npm run dev --workspace=@f1t/dashboard",
+    "start": "pm2 start ecosystem.config.cjs",
+    "stop": "pm2 stop ecosystem.config.cjs",
+    "restart": "pm2 restart ecosystem.config.cjs",
+    "logs": "pm2 logs",
     "test": "npm run test --workspaces --if-present",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -28,6 +35,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
+    "concurrently": "^9.1.2",
     "eslint": "^8.57.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
