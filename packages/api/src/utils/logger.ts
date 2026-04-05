@@ -5,18 +5,19 @@ import type { Logger } from 'pino';
  * Create a logger instance
  */
 export function createLogger(name: string): Logger {
+  const isDev = process.env.NODE_ENV !== 'production';
+
   return pino({
     name,
     level: process.env.LOG_LEVEL ?? 'info',
-    transport:
-      process.env.NODE_ENV !== 'production'
-        ? {
-            target: 'pino-pretty',
-            options: {
-              colorize: true,
-            },
-          }
-        : undefined,
+    ...(isDev && {
+      transport: {
+        target: 'pino-pretty',
+        options: {
+          colorize: true,
+        },
+      },
+    }),
   });
 }
 
