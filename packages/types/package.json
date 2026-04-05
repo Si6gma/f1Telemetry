@@ -1,0 +1,30 @@
+{
+  "name": "@f1t/types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared types for F1 Telemetry Suite",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./packets": {
+      "types": "./dist/packets/index.d.ts",
+      "import": "./dist/packets/index.js"
+    },
+    "./domain": {
+      "types": "./dist/domain/index.d.ts",
+      "import": "./dist/domain/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
